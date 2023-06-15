@@ -15,9 +15,9 @@ class Game:
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 0
-        self.player = Spaceship()
-        self.enemy_handler = EnemyHandler()
         self.bullet_handler = BulletHandler()
+        self.player = Spaceship(self.bullet_handler)
+        self.enemy_handler = EnemyHandler(self.bullet_handler)
         
 
     def run(self):

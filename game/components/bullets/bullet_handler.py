@@ -1,13 +1,17 @@
-from game.utils.constants import BULLET_ENEMY_TYPE
+from game.utils.constants import BULLET_ENEMY_TYPE, BULLET_PLAYER_TYPE
 from game.components.bullets.bullet_enemy import BulletEnemy
+from game.components.bullets.bullet_player import BulletPlayer
 
 class BulletHandler:
     def __init__(self):
         self.bullets = []
+        self.bulletsPlayer = []
 
     def update(self, player):
         for bullet in self.bullets:
             bullet.update(player)
+            if not bullet.is_alive:
+                self.removeBullet(bullet)
 
     def draw(self, screen):
         for bullet in self.bullets:
@@ -15,4 +19,13 @@ class BulletHandler:
     
     def add_bullet(self, type, center):
         if type == BULLET_ENEMY_TYPE:
-            self.bullets.append(BulletEnemy(center))
+            obj = BulletEnemy(center)
+            self.bullets.append(obj)
+        elif type == BULLET_PLAYER_TYPE:
+            objPlayer = BulletPlayer(center)
+            self.bullets.append(objPlayer)
+            self.bulletsPlayer.append(objPlayer)
+    def removeBullet(self, b):
+        self.bullets.remove(b)
+        self.bulletsPlayer.remove(b)
+    

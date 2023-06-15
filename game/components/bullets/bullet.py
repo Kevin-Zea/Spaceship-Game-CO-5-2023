@@ -5,6 +5,7 @@ class Bullet:
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.center = center
+        self.is_alive = True
 
     def update(self):
         pass

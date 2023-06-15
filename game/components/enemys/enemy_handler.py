@@ -1,13 +1,12 @@
 from game.components.enemys.ship import Ship
 from game.components.enemys.shipTwo import ShipTwo
-from game.components.bullets.bullet_handler import BulletHandler
 
 import random
 class EnemyHandler:
     enemigos = random.randint(1, 5) 
-    def __init__(self):
+    def __init__(self, bulletHandler):
         self.enemies = []
-        self.bullet = BulletHandler()
+        self.bullet = bulletHandler
 
         for i in range(self.enemigos):
             multiplicador = random.randint(1, 3)

@@ -25,6 +25,12 @@ class Enemy:
         self.shooting_time = 0
 
     def update(self, bullet_handler):
+        for balas in bullet_handler.bulletsPlayer:
+            if balas.rect.colliderect(self.rect):
+                self.is_alive = False
+                balas.is_alive = False
+            elif balas.rect.y >= SCREEN_HEIGHT or balas.rect.y <= 0:
+                balas.is_alive = False
         if self.rect.y >= SCREEN_HEIGHT:
             self.is_alive = False
         
