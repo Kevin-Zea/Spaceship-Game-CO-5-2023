@@ -3,6 +3,7 @@ from game.components.spaceship import Spaceship
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from game.components.enemys.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
+from game.components import text_utils
 
 class Game:
     def __init__(self):
@@ -15,15 +16,18 @@ class Game:
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 0
+        self.isRunning = False
         self.bullet_handler = BulletHandler()
         self.player = Spaceship(self.bullet_handler)
         self.enemy_handler = EnemyHandler(self.bullet_handler)
+        self.score = 0
+        self.number_death = 0
         
 
     def run(self):
         # Game loop: events - update - draw
-        self.playing = True
-        while self.playing:
+        self.isRunning = True
+        while self.isRunning:
             self.events()
             self.update()
             self.draw()
@@ -33,24 +37,33 @@ class Game:
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.isRunning = False
                 self.playing = False
+            elif event.type == pygame.KEYDOWN and not self.playing:
+                self.playing = True
+                self.reset()
 
     def update(self):
-        user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
-        self.enemy_handler.update()
-        self.bullet_handler.update(self.player)
-        if not self.player.is_alive:
-            pygame.time.delay(500)
-            self.playing = False
+        if self.playing:
+            user_input = pygame.key.get_pressed()
+            self.player.update(user_input)
+            self.enemy_handler.update()
+            self.bullet_handler.update(self.player)
+            self.score = self.enemy_handler.numberEnemyDestroyer
+            if not self.player.is_alive:
+                pygame.time.delay(500)
+                self.playing = False
 
     def draw(self):
-        self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
         self.draw_background()
-        self.player.draw(self.screen)
-        self.enemy_handler.draw(self.screen)
-        self.bullet_handler.draw(self.screen)
+        if self.playing:
+            self.clock.tick(FPS)
+            self.player.draw(self.screen)
+            self.enemy_handler.draw(self.screen)
+            self.bullet_handler.draw(self.screen)
+            self.drawScore()
+        else:
+            self.draw_menu()
         pygame.display.update()
         pygame.display.flip()
 
@@ -63,3 +76,24 @@ class Game:
             self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
             self.y_pos_bg = 0
         self.y_pos_bg += self.game_speed
+    
+    def draw_menu(self):
+        if self.number_death == 0:
+            text, text_rect = text_utils.get_message("press ani key to satrt ", 30, (0, 0, 0), 50, 50)
+            self.screen.blit(text, text_rect)
+        else:
+            text, text_rect = text_utils.get_message("press ani key to satrt ", 30, (0, 0, 0), 50, 50)
+            score, score_rect = text_utils.get_message(f'Your score is: {self.score}', 20, (0, 0, 0), 1000, 40)
+            self.screen.blit(text, text_rect)
+            self.screen.blit(score, score_rect)
+
+
+    def reset(self):
+        self.player.reset()
+        self.bullet_handler.reset()
+        self.enemy_handler.reset()
+        self.score = 0
+
+    def drawScore(self):
+        score, score_rect = text_utils.get_message(f'Your score is: {self.score}', 20, (0, 0, 0), 1000, 40)
+        self.screen.blit(score, score_rect)

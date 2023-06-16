@@ -5,10 +5,12 @@ if __name__ == "__main__":
     game.run()
     
 
-#tarea 2
-#~agregar nuevo enemigo
-# dar velocidades y tamaños random e intervalos
-
-#tarea 3
-# agregar balas de jugador
-# cuando colisione con el enemigo que se destruya
+#tarea 4 
+# corregir el jugador solo hasta la mitad de la pantalla
+# score
+# menu inicial
+# menu final
+# estadisticas modo libre
+# maximo score
+# numero de intentos
+#agregar readme

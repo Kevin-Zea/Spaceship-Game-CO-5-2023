@@ -55,3 +55,8 @@ class Spaceship:
     def shoot(self, bullethandler):
         if self.timefroze % self.TIMEFROZE == 0:
             bullethandler.add_bullet(BULLET_PLAYER_TYPE, self.rect.center)
+
+    def reset(self):
+        self.rect.x = self.X_POS
+        self.rect.y = self.Y_POS
+        self.is_alive = True

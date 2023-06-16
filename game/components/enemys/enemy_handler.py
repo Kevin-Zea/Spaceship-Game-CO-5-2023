@@ -7,6 +7,7 @@ class EnemyHandler:
     def __init__(self, bulletHandler):
         self.enemies = []
         self.bullet = bulletHandler
+        self.numberEnemyDestroyer = 0
 
         for i in range(self.enemigos):
             multiplicador = random.randint(1, 3)
@@ -17,6 +18,8 @@ class EnemyHandler:
         self.add_enemy()
         for enemy in self.enemies:
             enemy.update(self.bullet)
+            if enemy.isDestroyed:
+                self.numberEnemyDestroyer += 1
             if enemy.is_alive == False:
                 self.remove_enemy(enemy)
 
@@ -36,3 +39,7 @@ class EnemyHandler:
 
     def remove_enemy(self, enemy):
         self.enemies.remove(enemy)
+    
+    def reset(self):
+        self.enemies = []
+        self.numberEnemyDestroyer = 0

@@ -23,10 +23,12 @@ class Enemy:
         self.interval = random.choice(self.INTERVAL)
         self.is_alive = True
         self.shooting_time = 0
+        self.isDestroyed = False
 
     def update(self, bullet_handler):
         for balas in bullet_handler.bulletsPlayer:
             if balas.rect.colliderect(self.rect):
+                self.isDestroyed = True
                 self.is_alive = False
                 balas.is_alive = False
             elif balas.rect.y >= SCREEN_HEIGHT or balas.rect.y <= 0:
