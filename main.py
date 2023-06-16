@@ -6,11 +6,10 @@ if __name__ == "__main__":
     
 
 #tarea 4 
-# corregir el jugador solo hasta la mitad de la pantalla
 # score
 # menu inicial
 # menu final
-# estadisticas modo libre
+# estadisticas modo libre (porcentaje de enemigos muertos, cantidad de veces que disparo, tiempo de supervivencia)
 # maximo score
 # numero de intentos
 #agregar readme

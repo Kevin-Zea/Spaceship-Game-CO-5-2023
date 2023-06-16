@@ -6,6 +6,7 @@ class BulletHandler:
     def __init__(self):
         self.bullets = []
         self.bulletsPlayer = []
+        self.bulletShoot = 0
 
     def update(self, player):
         for bullet in self.bullets:
@@ -25,6 +26,7 @@ class BulletHandler:
             objPlayer = BulletPlayer(center)
             self.bullets.append(objPlayer)
             self.bulletsPlayer.append(objPlayer)
+            self.bulletShoot += 1
     def removeBullet(self, b):
         self.bullets.remove(b)
         self.bulletsPlayer.remove(b)
@@ -32,4 +34,5 @@ class BulletHandler:
     def reset(self):
         self.bullets = []
         self.bulletsPlayer = []
+        self.bulletShoot = 0
     

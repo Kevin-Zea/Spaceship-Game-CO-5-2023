@@ -32,3 +32,6 @@ FONT_STYLE = 'freesansbold.ttf'
 
 BULLET_ENEMY_TYPE = 'enemy'
 BULLET_PLAYER_TYPE = 'player'
+
+WHITE = (255, 255, 255)
+CYAN = (21, 255, 182)
