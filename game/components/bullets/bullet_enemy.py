@@ -1,5 +1,5 @@
 from game.components.bullets.bullet import Bullet
-from game.utils.constants import BULLET_ENEMY
+from game.utils.constants import BULLET_ENEMY, SHIELD_TYPE
 import pygame
 
 class BulletEnemy(Bullet):
@@ -15,6 +15,8 @@ class BulletEnemy(Bullet):
         self.rect.y += self.SPEED
         if self.rect.colliderect(player.rect):
             player.is_alive = False
+        
+        
 
     def draw(self, screen):
         return super().draw(screen)

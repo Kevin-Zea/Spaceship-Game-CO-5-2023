@@ -12,4 +12,15 @@ if __name__ == "__main__":
 # estadisticas modo libre (porcentaje de enemigos muertos, cantidad de veces que disparo, tiempo de supervivencia)
 # maximo score
 # numero de intentos
-#agregar readme
+
+#tarea 5 
+# agregar funcionalidad al escudo
+# agregar powerups
+# agregar enemigos
+# menu
+# estadisticas
+# jefe
+# bot (coplauer)
+# dificultad
+# balas destruir balas
+# agregar readme

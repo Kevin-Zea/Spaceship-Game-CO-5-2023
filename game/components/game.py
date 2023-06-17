@@ -4,6 +4,7 @@ from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, F
 from game.components.enemys.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
 from game.components import text_utils
+from game.components.powers.power_handler import PowerHandler
 
 class Game:
     def __init__(self):
@@ -27,6 +28,7 @@ class Game:
         self.shootTimes = 0
         self.timeSurvive = 0
         self.scores = []
+        self.powerHandler = PowerHandler()
         
 
     def run(self):
@@ -62,6 +64,7 @@ class Game:
             self.enemys_death = self.enemy_handler.enemistotal
             self.shootTimes = self.bullet_handler.bulletShoot
             self.tiempoSurvive()
+            # self.powerHandler.update(self.player)
             if not self.player.is_alive:
                 self.scores.append(self.score)
                 pygame.time.delay(500)
@@ -76,6 +79,7 @@ class Game:
             self.enemy_handler.draw(self.screen)
             self.bullet_handler.draw(self.screen)
             self.drawScore()
+            # self.powerHandler.draw(self.screen)
         else:
             self.draw_menu()
         pygame.display.update()
@@ -98,7 +102,7 @@ class Game:
         else:
             text, text_rect = text_utils.get_message("press ani key to start ", 30, WHITE, 550, 200)
             score, score_rect = text_utils.get_message(f'Your score is: {self.score}', 20, WHITE, 550, 250)
-            porcentajeEnemigosMuertos = (self.score * 100) / self.enemys_death
+            porcentajeEnemigosMuertos = (self.score * 100) // self.enemys_death
             enemysD, enemysD_rect = text_utils.get_message(f'% {porcentajeEnemigosMuertos} of enemys destroyed of {self.enemys_death}', 20 ,CYAN, 550, 300)
             shoots, shoot_rect = text_utils.get_message(f'Cantidad de veces en la que disparo {self.shootTimes}', 20, CYAN, 550, 350)
             tiempo, tiempo_rect = text_utils.get_message(f'your time of survive is: {self.timeSurvive}s', 20, CYAN, 550, 400)
