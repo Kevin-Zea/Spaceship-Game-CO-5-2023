@@ -86,7 +86,7 @@ class Spaceship:
         self.image = pygame.transform.scale(self.image, (40, 60))
     
     def set_power(self):
-        if self.power_type == SHIELD_TYPE or self.power_type == SHOOT_TYPE or self.power_type == COPLAYER_TYPE:
+        if self.power_type == SHIELD_TYPE or self.power_type == SHOOT_TYPE:
             self.time += 1
             if self.time == 20:
                 self.time = self.time // 20

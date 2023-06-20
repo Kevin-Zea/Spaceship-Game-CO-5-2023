@@ -11,7 +11,7 @@ class PowerHandler:
     def __init__(self):
         self.powers = []
         self.when_appears = random.randint(3, 7)
-        self.identy_power = random.randint(1, 4)
+        self.identy_power = 4
 
     def generatePowers(self):
 
@@ -27,7 +27,7 @@ class PowerHandler:
         elif self.identy_power == 4:
             coplayer = Coplayer()
             self.powers.append(coplayer)
-        self.identy_power = random.randint(1, 4)
+        self.identy_power = 4
         self.when_appears = self.when_appears * 2
         
 
