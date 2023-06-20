@@ -1,6 +1,6 @@
 import pygame
 from game.components.spaceship import Spaceship
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, WHITE, CYAN, COPLAYER_TYPE, BACK, GAMEOVER
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, WHITE, CYAN, COPLAYER_TYPE, BACK, GAMEOVER, HEART
 from game.components.enemys.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
 from game.components import text_utils
@@ -32,6 +32,9 @@ class Game:
         self.enemy_handler = EnemyHandler(self.bullet_handler, self.powerHandler)
         self.aux = 0
         self.coplayer = SpaceshipTwo(self.bullet_handler)
+        self.lifes = 3
+        self.auxiliar = 0
+        self.xua = 0
         pygame.mixer.music.load('game/assets/sounds/music.mp3')
 
         
@@ -73,11 +76,13 @@ class Game:
                 self.coplayer.update(user_input)
                 self.bullet_handler.update(self.coplayer)
             self.powerHandler.update(self.player)
+
             if not self.player.is_alive:
                 self.scores.append(self.score)
                 pygame.time.delay(500)
                 self.playing = False
                 self.number_death += 1
+            
 
     def draw(self):
         self.draw_background()
@@ -88,6 +93,7 @@ class Game:
             self.bullet_handler.draw(self.screen)
             self.drawScore()
             self.powerHandler.draw(self.screen)
+            # self.drawLifes(self.screen)
             if self.player.has_power and self.player.power_type == COPLAYER_TYPE:
                 self.coplayer.draw(self.screen)
 
@@ -116,7 +122,7 @@ class Game:
             text, text_rect = text_utils.get_message("Press Ani Key To Start ", 30, WHITE, 550, 300)
             self.screen.blit(text, text_rect)
         else:
-            game = pygame.transform.scale(GAMEOVER, (50, 300))
+            game = pygame.transform.scale(GAMEOVER, (600, 300))
             text, text_rect = text_utils.get_message("Press Ani Key To Start ", 30, WHITE, 550, 200)
             score, score_rect = text_utils.get_message(f'Your score is: {self.score}', 20, WHITE, 550, 250)
             porcentajeEnemigosMuertos = (self.score * 100) // self.enemys_death
@@ -125,7 +131,7 @@ class Game:
             tiempo, tiempo_rect = text_utils.get_message(f'your time of survive is: {self.timeSurvive}s', 20, CYAN, 550, 400)
             numeroIntentos, numeroIntentos_rect = text_utils.get_message(f'intents: {len(self.scores)}', 20, CYAN, 550, 420)
 
-            self.screen.blit(game, (550, 150))
+            self.screen.blit(game, (250, 0))
             self.screen.blit(text, text_rect)
             self.screen.blit(score, score_rect)
             self.screen.blit(enemysD, enemysD_rect)
@@ -168,6 +174,12 @@ class Game:
         if self.player.has_power and self.player.power_type == COPLAYER_TYPE:
             self.coplayer = Spaceship(self.bullet_handler)
             self.coplayer.x_POS = (SCREEN_WIDTH // 2) - 90
-            
+
+    def drawLifes(self, screen):
+        life = pygame.transform.scale(HEART, (50, 50))
+        aux = 50
+        for i in range(1, self.lifes + 1):
+            screen.blit(life, (aux, 20))
+            aux = aux + 50
              
         

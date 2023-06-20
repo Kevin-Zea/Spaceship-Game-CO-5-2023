@@ -48,4 +48,4 @@ BULLET_ENEMY_TYPE = 'enemy'
 BULLET_PLAYER_TYPE = 'player'
 
 WHITE = (65, 7, 111)
-CYAN = (21, 255, 182)
+CYAN = (198, 3, 136)
