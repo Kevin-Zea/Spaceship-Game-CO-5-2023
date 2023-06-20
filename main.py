@@ -15,12 +15,9 @@ if __name__ == "__main__":
 
 #tarea 5 
 # agregar funcionalidad al escudo
-# agregar powerups
+# agregar powerups (disparo de a 3, segunda nave,bomba)
 # agregar enemigos
-# menu
-# estadisticas
-# jefe
-# bot (coplauer)
-# dificultad
+# dificultad 
 # balas destruir balas
 # agregar readme
+# error de tocar el powerup 

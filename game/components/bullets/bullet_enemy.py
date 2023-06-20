@@ -13,7 +13,7 @@ class BulletEnemy(Bullet):
 
     def update(self, player):
         self.rect.y += self.SPEED
-        if self.rect.colliderect(player.rect):
+        if self.rect.colliderect(player.rect) and player.power_type != SHIELD_TYPE:
             player.is_alive = False
         
         

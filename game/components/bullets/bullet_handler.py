@@ -1,4 +1,4 @@
-from game.utils.constants import BULLET_ENEMY_TYPE, BULLET_PLAYER_TYPE
+from game.utils.constants import BULLET_ENEMY_TYPE, BULLET_PLAYER_TYPE, SHOOT_TYPE
 from game.components.bullets.bullet_enemy import BulletEnemy
 from game.components.bullets.bullet_player import BulletPlayer
 
@@ -27,6 +27,21 @@ class BulletHandler:
             self.bullets.append(objPlayer)
             self.bulletsPlayer.append(objPlayer)
             self.bulletShoot += 1
+        elif type == SHOOT_TYPE:
+            objPlayer = BulletPlayer(center)
+            center2 = (center[0] - 50, center[1])
+            center3 = (center[0] + 50, center[1])
+            objPlayer2 = BulletPlayer(center2)
+            objPlayer3 = BulletPlayer(center3)
+            self.bullets.append(objPlayer)
+            self.bullets.append(objPlayer2)
+            self.bullets.append(objPlayer3)
+            self.bulletsPlayer.append(objPlayer)
+            self.bulletsPlayer.append(objPlayer2)
+            self.bulletsPlayer.append(objPlayer3)
+            self.bulletShoot += 3
+
+            
     def removeBullet(self, b):
         self.bullets.remove(b)
         self.bulletsPlayer.remove(b)

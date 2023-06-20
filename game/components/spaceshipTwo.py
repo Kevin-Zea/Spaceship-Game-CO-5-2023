@@ -1,11 +1,19 @@
 import pygame
 from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, BULLET_PLAYER_TYPE, DEFAULT_TYPE, SHIELD_TYPE, SHOOT_TYPE, COPLAYER_TYPE
+import random
 
-class Spaceship:
-    x_POS = (SCREEN_WIDTH // 2) - 40
+class SpaceshipTwo:
+    x_POS = (SCREEN_WIDTH // 2) - 90
     Y_POS = 500
     TIMEFROZE = 5
     POWER_LIMIT = 15
+    SPEED_X = [1, 2, 3, 4, 5]
+    SPEED_Y = [1, 2, 3, 4, 5]
+    LEFT = 'left'
+    RIGTH = 'rigth'
+    MOV_X = [LEFT, RIGTH]
+    SHOOTING_TIME = 30
+    INTERVAL = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600]
     def __init__(self, bulletHandler):
         self.image = SPACESHIP
         self.image = pygame.transform.scale(self.image, (40, 60))
@@ -20,50 +28,30 @@ class Spaceship:
         self.power_time = 0
         self.time = 0
 
+        self.mov_x = random.choice(self.MOV_X)
+        self.index = 0
+        self.vel_x = random.choice(self.SPEED_X)
+        self.vel_y = random.choice(self.SPEED_Y)
+        self.interval = random.choice(self.INTERVAL)
+
     def update(self, user_input):
         self.timefroze += 1
+        self.move()
         if self.has_power:
             self.set_power()
-        if user_input[pygame.K_LEFT]:
-            self.move_left()
-        elif user_input[pygame.K_RIGHT]:
-            self.move_right()
-        elif user_input[pygame.K_UP]:
-            self.move_up()
-        elif user_input[pygame.K_DOWN]:
-            self.move_down()
-        elif user_input[pygame.K_SPACE]:
-            self.shoot(self.bullethandler)
+
+        self.shoot(self.bullethandler)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
 
-    def move_left(self):
-        if self.rect.left > 0:
-            self.rect.x -= 10
-        else:
-            self.rect.x = SCREEN_WIDTH
-    
-    def move_right(self):
-        if self.rect.right < SCREEN_WIDTH:
-            self.rect.x += 10
-        else:
-            self.rect.x = 0
-
-    def move_up(self):
-        if self.rect.y > SCREEN_HEIGHT // 2:
-            self.rect.y -= 10
-
-    def move_down(self):
-        if self.rect.y < SCREEN_HEIGHT - 60:
-            self.rect.y += 10
-
     def shoot(self, bullethandler):
-        if self.timefroze % self.TIMEFROZE == 0 and self.power_type == SHOOT_TYPE:
-            bullethandler.add_bullet(SHOOT_TYPE, self.rect.center)
-        if self.timefroze % self.TIMEFROZE == 0:
+        if self.timefroze % self.TIMEFROZE == 0 and self.power_type == DEFAULT_TYPE:
             bullethandler.add_bullet(BULLET_PLAYER_TYPE, self.rect.center)
+        elif self.timefroze % self.TIMEFROZE == 0 and self.power_type == SHOOT_TYPE:
+            bullethandler.add_bullet(SHOOT_TYPE, self.rect.center)
+
     def reset(self):
         self.rect.x = self.x_POS
         self.rect.y = self.Y_POS
@@ -94,4 +82,19 @@ class Spaceship:
                 self.time = 0
                 self.has_power = False
                 self.power_type = DEFAULT_TYPE
+    
+    def move(self):
+        if self.mov_x == self.LEFT:
+            self.rect.x -= self.vel_x
+            if self.index > self.interval or self.rect.x <= 0:
+                self.mov_x = self.RIGTH
+                self.index = 0
+        else:
+            self.rect.x += self.vel_x
+            if self.index > self.interval or self.rect.x >= SCREEN_WIDTH - self.rect.width:
+                self.mov_x = self.LEFT
+                self.index = 0
+
+        self.index += 1
+
         

@@ -1,10 +1,11 @@
 import pygame
 from game.components.spaceship import Spaceship
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, WHITE, CYAN
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, WHITE, CYAN, COPLAYER_TYPE
 from game.components.enemys.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
 from game.components import text_utils
 from game.components.powers.power_handler import PowerHandler
+from game.components.spaceshipTwo import SpaceshipTwo
 
 class Game:
     def __init__(self):
@@ -20,7 +21,6 @@ class Game:
         self.isRunning = False
         self.bullet_handler = BulletHandler()
         self.player = Spaceship(self.bullet_handler)
-        self.enemy_handler = EnemyHandler(self.bullet_handler)
         self.score = 0
         self.number_death = 0
         self.enemys_death = 0
@@ -29,11 +29,14 @@ class Game:
         self.timeSurvive = 0
         self.scores = []
         self.powerHandler = PowerHandler()
+        self.enemy_handler = EnemyHandler(self.bullet_handler, self.powerHandler)
+        self.aux = 0
+        self.coplayer = SpaceshipTwo(self.bullet_handler)
+
         
 
     def run(self):
         # Game loop: events - update - draw
-        # self.playing = True
         self.isRunning = True
         self.enemy_handler.iniciarEnemigos()
         while self.isRunning:
@@ -64,7 +67,10 @@ class Game:
             self.enemys_death = self.enemy_handler.enemistotal
             self.shootTimes = self.bullet_handler.bulletShoot
             self.tiempoSurvive()
-            # self.powerHandler.update(self.player)
+            if self.player.has_power and self.player.power_type == COPLAYER_TYPE:
+                self.coplayer.update(user_input)
+                self.bullet_handler.update(self.coplayer)
+            self.powerHandler.update(self.player)
             if not self.player.is_alive:
                 self.scores.append(self.score)
                 pygame.time.delay(500)
@@ -79,7 +85,10 @@ class Game:
             self.enemy_handler.draw(self.screen)
             self.bullet_handler.draw(self.screen)
             self.drawScore()
-            # self.powerHandler.draw(self.screen)
+            self.powerHandler.draw(self.screen)
+            if self.player.has_power and self.player.power_type == COPLAYER_TYPE:
+                self.coplayer.draw(self.screen)
+
         else:
             self.draw_menu()
         pygame.display.update()
@@ -132,6 +141,7 @@ class Game:
         self.score = 0
         self.enemys_death = 0
         self.timeSurvive = 0
+        self.powerHandler.reset()
 
     def drawScore(self):
         score, score_rect = text_utils.get_message(f'Your score is: {self.score}', 20, WHITE, 1000, 40)
@@ -140,4 +150,15 @@ class Game:
         self.screen.blit(tiempo, tiempo_rect)
 
     def tiempoSurvive(self):
-        self.timeSurvive =+ pygame.time.get_ticks() // 1000
+        self.aux += 1
+        if self.aux == 20:
+            self.aux = self.aux // 20
+            self.timeSurvive += self.aux 
+    
+    def coplayerInstance(self):
+        if self.player.has_power and self.player.power_type == COPLAYER_TYPE:
+            self.coplayer = Spaceship(self.bullet_handler)
+            self.coplayer.x_POS = (SCREEN_WIDTH // 2) - 90
+            
+             
+        

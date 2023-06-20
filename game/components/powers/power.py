@@ -11,7 +11,7 @@ class Power:
         self.type = type
         self.image = pygame.transform.scale(self.image, (self.WIDTH, self.HEIGTH))
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(50, SCREEN_WIDTH - 50)
+        self.rect.x = random.randint(150, SCREEN_WIDTH - 150)
         self.rect.y = 0
         self.is_alive = True
 

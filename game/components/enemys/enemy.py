@@ -1,5 +1,5 @@
 import random
-from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT, BULLET_ENEMY_TYPE
+from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT, BULLET_ENEMY_TYPE, BOMB_TYPE
 class Enemy:
     Y_POS = 20
     X_POS = [50, 10, 150, 200, 250, 300, 350, 400, 450, 500]
@@ -25,7 +25,12 @@ class Enemy:
         self.shooting_time = 0
         self.isDestroyed = False
 
-    def update(self, bullet_handler):
+    def update(self, bullet_handler, powerhandler):
+        for power in powerhandler.powers:
+            if power.rect.colliderect(self.rect) and power.type == BOMB_TYPE:
+                self.isDestroyed = True
+                self.is_alive = False
+                print("detecta")
         for balas in bullet_handler.bulletsPlayer:
             if balas.rect.colliderect(self.rect):
                 self.isDestroyed = True
