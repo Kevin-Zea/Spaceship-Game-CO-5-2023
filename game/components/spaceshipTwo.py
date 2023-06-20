@@ -34,6 +34,9 @@ class SpaceshipTwo:
         self.vel_y = random.choice(self.SPEED_Y)
         self.interval = random.choice(self.INTERVAL)
 
+        self.shoot_sound = pygame.mixer.Sound('game/assets/sounds/shoot.mp3')
+
+
     def update(self, user_input):
         self.timefroze += 1
         self.move()
@@ -51,6 +54,7 @@ class SpaceshipTwo:
             bullethandler.add_bullet(BULLET_PLAYER_TYPE, self.rect.center)
         elif self.timefroze % self.TIMEFROZE == 0 and self.power_type == SHOOT_TYPE:
             bullethandler.add_bullet(SHOOT_TYPE, self.rect.center)
+        self.shoot_sound.play()
 
     def reset(self):
         self.rect.x = self.x_POS

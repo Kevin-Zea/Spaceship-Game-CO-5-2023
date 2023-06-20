@@ -14,6 +14,10 @@ ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png"))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
+BACK = pygame.image.load(os.path.join(IMG_DIR, 'Other/fondo.jpeg'))
+GAMEOVER = pygame.image.load(os.path.join(IMG_DIR, 'Other/GameOver.png'))
+
+
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
@@ -43,5 +47,5 @@ FONT_STYLE = 'freesansbold.ttf'
 BULLET_ENEMY_TYPE = 'enemy'
 BULLET_PLAYER_TYPE = 'player'
 
-WHITE = (255, 255, 255)
+WHITE = (65, 7, 111)
 CYAN = (21, 255, 182)

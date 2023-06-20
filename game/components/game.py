@@ -1,6 +1,6 @@
 import pygame
 from game.components.spaceship import Spaceship
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, WHITE, CYAN, COPLAYER_TYPE
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, WHITE, CYAN, COPLAYER_TYPE, BACK, GAMEOVER
 from game.components.enemys.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
 from game.components import text_utils
@@ -32,6 +32,7 @@ class Game:
         self.enemy_handler = EnemyHandler(self.bullet_handler, self.powerHandler)
         self.aux = 0
         self.coplayer = SpaceshipTwo(self.bullet_handler)
+        pygame.mixer.music.load('game/assets/sounds/music.mp3')
 
         
 
@@ -39,10 +40,11 @@ class Game:
         # Game loop: events - update - draw
         self.isRunning = True
         self.enemy_handler.iniciarEnemigos()
+        pygame.mixer.music.play(3)
         while self.isRunning:
             self.events()
             self.draw()
-            self.update()
+            self.update()   
         pygame.display.quit()
         pygame.quit()
 
@@ -95,21 +97,27 @@ class Game:
         pygame.display.flip()
 
     def draw_background(self):
-        image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        image_height = image.get_height()
-        self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg))
-        self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
-        if self.y_pos_bg >= SCREEN_HEIGHT:
+        if self.playing:
+            image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            image_height = image.get_height()
+            self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg))
             self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
-            self.y_pos_bg = 0
-        self.y_pos_bg += self.game_speed
+            if self.y_pos_bg >= SCREEN_HEIGHT:
+                self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
+                self.y_pos_bg = 0
+            self.y_pos_bg += self.game_speed
+        else:
+            image = pygame.transform.scale(BACK, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.screen.blit(image, (0, 0))
+
     
     def draw_menu(self):
         if self.number_death == 0:
-            text, text_rect = text_utils.get_message("press ani key to start ", 30, WHITE, 550, 300)
+            text, text_rect = text_utils.get_message("Press Ani Key To Start ", 30, WHITE, 550, 300)
             self.screen.blit(text, text_rect)
         else:
-            text, text_rect = text_utils.get_message("press ani key to start ", 30, WHITE, 550, 200)
+            game = pygame.transform.scale(GAMEOVER, (50, 300))
+            text, text_rect = text_utils.get_message("Press Ani Key To Start ", 30, WHITE, 550, 200)
             score, score_rect = text_utils.get_message(f'Your score is: {self.score}', 20, WHITE, 550, 250)
             porcentajeEnemigosMuertos = (self.score * 100) // self.enemys_death
             enemysD, enemysD_rect = text_utils.get_message(f'% {porcentajeEnemigosMuertos} of enemys destroyed of {self.enemys_death}', 20 ,CYAN, 550, 300)
@@ -117,6 +125,7 @@ class Game:
             tiempo, tiempo_rect = text_utils.get_message(f'your time of survive is: {self.timeSurvive}s', 20, CYAN, 550, 400)
             numeroIntentos, numeroIntentos_rect = text_utils.get_message(f'intents: {len(self.scores)}', 20, CYAN, 550, 420)
 
+            self.screen.blit(game, (550, 150))
             self.screen.blit(text, text_rect)
             self.screen.blit(score, score_rect)
             self.screen.blit(enemysD, enemysD_rect)
