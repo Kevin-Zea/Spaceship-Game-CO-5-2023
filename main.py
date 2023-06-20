@@ -18,6 +18,5 @@ if __name__ == "__main__":
 # agregar powerups (disparo de a 3, segunda nave,bomba)
 # agregar enemigos
 # dificultad 
-# balas destruir balas
 # agregar readme
 # error de tocar el powerup 
